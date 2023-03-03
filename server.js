@@ -7,8 +7,7 @@ import cookieParser from "cookie-parser"
 const app = express()
 app.use(cors({
     credentials: true,
-    //When deploying website, this MUST be changed to set website
-    origin: 'http://localhost:3000'}))
+    origin: 'https://cc-backend-fnot.onrender.com'}))
 app.use(express.json())
 app.use(cookieParser())
 
