@@ -5,6 +5,7 @@ import userRouter from "./api/UserRouter.js";
 import cookieParser from "cookie-parser"
 
 const app = express()
+app.options('*', cors())
 app.use(cors({
     credentials: true,
     origin: 'https://coveted-cow.onrender.com'}))
