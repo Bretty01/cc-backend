@@ -20,6 +20,9 @@ export default class UserController {
     static async deleteUser(req, res) {
         //Attempt to delete the user and return the status if it was successful or not.
         if(!req.body.id) return res.status(400).json({message: "Please give a user id."})
+        if(UserController.isDefaultUser(req.body.id)) {
+            return res.status(403).json({message: "You may not delete the test user account"})
+        }
         const {status = null, message = null} = await UserDao.deleteUser(req.body.id)
         res.status(status).json({"message": message})
     }
@@ -44,9 +47,15 @@ export default class UserController {
     }
 
     static async updatePassword(req, res) {
+        if(UserController.isDefaultUser(req.body.id)) {
+            return res.status(403).json({message: "You may not alter the test user account."})
+        }
         //Send the old password, new password, and id to the DAO and return the result.
         const {status = null, message = null} =
             await UserDao.updatePassword(req.body.id, req.body.oldPassword, req.body.newPassword)
         res.status(status).json({"message": message})
+    }
+    static isDefaultUser(id) {
+        return id === "63efc9913ca2c4bbf413acc9"
     }
 }
